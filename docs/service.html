@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Built App Readiness Audit — Launch Check for AI-Generated Applications</title>
+  <meta name="description" content="Fixed-price launch-readiness audit for apps built with AI tools. Catch broken navigation, missing validation, auth gaps, and insecure configuration before users do." />
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4f;
+      --text: #e8eef7;
+      --muted: #8b9cb3;
+      --accent: #a78bfa;
+      --accent-hover: #8b5cf6;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    header { text-align: center; margin-bottom: 3rem; }
+    .badge {
+      display: inline-block;
+      background: rgba(167, 139, 250, 0.15);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: clamp(1.85rem, 5vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .lead { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 auto 1.75rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-bottom: 0.75rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.85rem 1.6rem; border-radius: 8px; font-weight: 600; font-size: 1rem;
+      text-decoration: none; border: none; cursor: pointer;
+    }
+    .btn-primary { background: var(--accent); color: #1e1035; }
+    .btn-primary:hover { background: var(--accent-hover); color: white; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--surface); }
+    .price-note { font-size: 0.9rem; color: var(--muted); text-align: center; }
+    section { margin-bottom: 2.75rem; }
+    h2 { font-size: 1.35rem; font-weight: 650; margin-bottom: 1rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .pain-list, .deliverables { list-style: none; }
+    .pain-list li, .deliverables li { padding: 0.55rem 0; padding-left: 1.6rem; position: relative; }
+    .pain-list li::before { content: "×"; position: absolute; left: 0; color: var(--danger); font-weight: 700; }
+    .deliverables li::before { content: "✓"; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+    .step { display: flex; gap: 1rem; margin-bottom: 1.1rem; }
+    .step-num {
+      flex-shrink: 0; width: 2rem; height: 2rem; background: var(--accent); color: #1e1035;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem;
+    }
+    .step-body strong { display: block; margin-bottom: 0.15rem; }
+    .step-body span { color: var(--muted); font-size: 0.95rem; }
+    .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 640px) { .scope-grid { grid-template-columns: 1fr; } }
+    .scope-card h3 {
+      font-size: 1rem; margin-bottom: 0.75rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600;
+    }
+    .scope-card ul { list-style: none; }
+    .scope-card li { padding: 0.35rem 0; font-size: 0.95rem; }
+    .in-scope li::before { content: "• "; color: var(--success); }
+    .out-scope li::before { content: "• "; color: var(--muted); }
+    .final-cta {
+      text-align: center;
+      background: linear-gradient(180deg, var(--surface) 0%, #141c28 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem 1.5rem;
+    }
+    .final-cta h2 { margin-bottom: 0.5rem; }
+    .final-cta p { color: var(--muted); margin-bottom: 1.5rem; max-width: 440px; margin-left: auto; margin-right: auto; }
+    footer {
+      text-align: center; margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+<div style="padding:1rem;background:#fff3cd;color:#111;font-weight:bold">Historical draft — not approved for publication or customer use; service claims and pricing remain unvalidated.</div>
+  <div class="container">
+    <header>
+      <div class="badge">Launch readiness · $500–$750</div>
+      <h1>Built with AI?<br>Get an independent launch check.</h1>
+      <p class="lead">
+        Structured readiness audit for apps created with Cursor, Claude, Lovable, Bolt, v0, and similar tools.
+        Catch broken routes, missing validation, and insecure defaults before real users do.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#start">Request a Readiness Audit</a>
+        <a class="btn btn-secondary" href="#how">How it works</a>
+      </div>
+      <p class="price-note">$500–$750 · ≤3 hours active time · Not a full security audit</p>
+    </header>
+
+    <section>
+      <h2>Common AI-app launch failures</h2>
+      <div class="card">
+        <ul class="pain-list">
+          <li>Navigation links that 404</li>
+          <li>Forms with no validation (or fake client-side “success”)</li>
+          <li>Dashboards and admin routes reachable without login</li>
+          <li>Passwords or API keys stored in localStorage or client JS</li>
+          <li>Missing security headers and hard-coded secrets</li>
+          <li>Untested deploy paths that work locally but fail in production</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>What you receive</h2>
+      <div class="card">
+        <ul class="deliverables">
+          <li>Prioritized readiness report with evidence</li>
+          <li>Smoke-test results on key routes</li>
+          <li>Form, auth-surface, and basic hygiene findings</li>
+          <li>Concrete fix recommendations</li>
+          <li>Short walkthrough (Loom or call)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2>How it works</h2>
+      <div class="card">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>You share the URL</strong>
+            <span>Staging or production link (and optional repo). Tell us the main user journey in one sentence.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Scope & price confirmed</strong>
+            <span>Firm quote in the $500–$750 range before any work starts.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Audit + report</strong>
+            <span>Automated smoke suite + structured review. Report in 1–2 business days.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Walkthrough</strong>
+            <span>We review findings together. Remediation help available separately.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Scope</h2>
+      <div class="scope-grid">
+        <div class="card scope-card in-scope">
+          <h3>In scope</h3>
+          <ul>
+            <li>Route smoke tests</li>
+            <li>Basic form & auth surface review</li>
+            <li>Common AI-app failure patterns</li>
+            <li>Launch-readiness recommendations</li>
+          </ul>
+        </div>
+        <div class="card scope-card out-scope">
+          <h3>Out of scope</h3>
+          <ul>
+            <li>Full security / penetration test</li>
+            <li>Performance or load testing</li>
+            <li>“Secure” or “bug-free” certification</li>
+            <li>Large feature development</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="start" class="final-cta">
+      <h2>Launch with fewer surprises</h2>
+      <p>
+        Send your app URL and a one-line description.
+        You’ll get a firm price before any work begins.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:you@yourdomain.com?subject=AI%20App%20Readiness%20Audit">Request a Readiness Audit</a>
+      </div>
+    </section>
+
+    <footer>
+      AI-Built Application Readiness Audit<br>
+      Readiness assessment only — not a comprehensive security audit.
+    </footer>
+  </div>
+</body>
+</html>

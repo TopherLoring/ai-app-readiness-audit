@@ -1,0 +1,5 @@
+# Baseline audit — app readiness
+
+Observed 2026-10-28: `python demo.py` failed on import because `requests` is not installed. Requirements specify requests>=2.31, unpinned; Playwright is only commented out and absent. The demo has not been demonstrated in this environment.
+
+The engine makes live HTTP requests to guessed routes, follows redirects, and performs rudimentary string matching on home HTML; it does not execute JavaScript, discover actual routes, exercise journeys or produce screenshots. A missing guessed /admin or /settings path is called broken navigation, and password, storage and authentication heuristics can produce false positives. Header checks incorrectly require a plain dict even though requests headers use a case-insensitive mapping. Live access and redirects lack explicit allowlist enforcement, so do not run on customer systems. Reports lack full evidence, review, safe redaction and retention. Existing $500–$750 advertising is premature; the expanded tier requires browser testing and a validated gate. Active-hour and turnaround claims are unmeasured.

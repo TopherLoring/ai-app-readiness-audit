@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LaunchPad — AI-Built Demo App (Intentionally Flawed)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+    nav a { margin-right: 1rem; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+    .error { color: #b91c1c; }
+    input, button { padding: 0.5rem; margin: 0.25rem 0; }
+    button { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>LaunchPad Demo</h1>
+  <p>Intentionally flawed sample application for readiness audit demonstration.</p>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+    <!-- Broken navigation: /settings does not exist -->
+    <a href="/settings">Settings</a>
+    <a href="/admin">Admin</a>
+  </nav>
+
+  <div class="card">
+    <h2>Sign up</h2>
+    <!-- Missing client-side validation; no password strength; no CSRF -->
+    <form id="signup" action="/api/signup" method="POST">
+      <div>
+        <label>Email <input type="text" name="email" placeholder="email" /></label>
+      </div>
+      <div>
+        <label>Password <input type="text" name="password" placeholder="password" /></label>
+      </div>
+      <button type="submit">Create account</button>
+    </form>
+    <p id="msg" class="error"></p>
+  </div>
+
+  <div class="card">
+    <h2>Quick note</h2>
+    <p>API base is hard-coded and credentials are stored in localStorage in clear text (demo only).</p>
+    <button id="saveCreds">Save demo credentials</button>
+  </div>
+
+  <script>
+    // Insecure: stores credentials in localStorage
+    document.getElementById("saveCreds").onclick = function () {
+      localStorage.setItem("user", JSON.stringify({
+        email: "demo@example.com",
+        password: "password123",
+        token: "sk_live_example_not_real"
+      }));
+      alert("Saved to localStorage");
+    };
+
+    // No validation before submit
+    document.getElementById("signup").onsubmit = function (e) {
+      e.preventDefault();
+      // Broken: always "succeeds" client-side, never hits a real API
+      document.getElementById("msg").textContent = "Account created (demo — no server).";
+    };
+  </script>
+</body>
+</html>
